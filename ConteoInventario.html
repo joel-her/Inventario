@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteo de Inventario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+            transition: background-color 0.5s;
+        }
+        #contenedor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #titulo {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        #conteo-arriba {
+            font-size: 48px;
+            cursor: default;
+        }
+        #linea {
+            width: 100%;
+            border-top: 1px solid #000;
+            margin: 10px 0;
+        }
+        #click-abajo {
+            font-size: 48px;
+            cursor: pointer;
+            padding: 30px 60px;
+            border: none;
+            background-color: #008CBA;
+            color: #fff;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        #reset-boton, #cambiar-boton {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 15px 30px;
+            border: none;
+            background-color: #FF6347;
+            color: #fff;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        #historial {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<a>Joel Enrique Hernández Caballero</a>
+<div id="contenedor">
+    <div id="titulo">Conteo de Inventario</div>
+    <div id="conteo-arriba">0</div>
+    <div id="linea"></div>
+    <button id="click-abajo" onclick="parpadearPagina()">Haz clic aquí</button>
+    <button id="reset-boton">Reiniciar Conteo</button>
+    <button id="cambiar-boton" onclick="cambiarIncremento()">Cambiar Incremento</button>
+    <div id="historial">Historial:</div>
+</div>
+
+<script>
+    let conteoArriba = 0;
+    let historial = [];
+    let incremento = 2; // Valor inicial del incremento
+
+    function parpadearPagina() {
+        document.body.style.backgroundColor = '#00FF00';
+        setTimeout(function() {
+            document.body.style.backgroundColor = '';
+        }, 500);
+        conteoArriba += incremento;
+        document.getElementById('conteo-arriba').innerText = conteoArriba;
+    }
+
+    function cambiarIncremento() {
+        let nuevoIncremento = prompt('Ingrese el nuevo valor de incremento:', '');
+        if (nuevoIncremento !== null) {
+            nuevoIncremento = parseInt(nuevoIncremento);
+            if (!isNaN(nuevoIncremento) && nuevoIncremento > 0) {
+                incremento = nuevoIncremento;
+            } else {
+                alert('Por favor, ingrese un número válido mayor que 0.');
+            }
+        }
+    }
+
+    document.getElementById('reset-boton').addEventListener('click', function() {
+        historial.push(conteoArriba);
+        conteoArriba = 0;
+        document.getElementById('conteo-arriba').innerText = conteoArriba;
+        actualizarHistorial();
+    });
+
+    function actualizarHistorial() {
+        const historialDiv = document.getElementById('historial');
+        historialDiv.innerText = 'Historial: ' + historial.join(', ');
+    }
+</script>
+
+</body>
+</html>
